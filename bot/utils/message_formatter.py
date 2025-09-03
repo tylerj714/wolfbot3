@@ -117,7 +117,15 @@ async def format_action(action: Action, game: Game, item_name: Optional[str] = N
     #         else:
     #             action_class_def_str = action_class.action_class_name
     #         formatted_action += f' {action_class_def_str}'
-    formatted_action += f'- **{action.action_name}**:'
+    # Add action type display (following format_item pattern from lines 200-207)
+    if action.action_type is not None:
+        game_action_type_defs = game.get_action_type_definitions()
+        if action.action_type in game_action_type_defs:
+            action_type_def_str = game_action_type_defs[action.action_type].emoji_text
+        else:
+            action_type_def_str = action.action_type
+        formatted_action += f' {action_type_def_str}'
+    formatted_action += f' **{action.action_name}**:'
     if item_name:
         formatted_action += f' *(from {item_name})*'
     if action.action_timing:
